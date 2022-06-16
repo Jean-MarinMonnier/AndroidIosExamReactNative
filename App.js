@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { BottomNavigation } from 'react-native-paper';
+import BookStackNavigator from './navigation/bookStackNavigator';
+import LoginStackNavigator from './navigation/loginStackNavigator';
 
 export default function App() {
+  const [index, setIndex] = React.useState(1);
+  const [routes] = React.useState([
+    { key: 'books', title: 'Books', focusedIcon: 'menu_book', unfocusedIcon: 'menu_book'},
+    { key: 'user', title: 'User', focusedIcon: 'account_circle', unfocusedIcon: 'account_circle' },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    books: BookStackNavigator,
+    user: LoginStackNavigator
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
